@@ -1,13 +1,34 @@
 import ProjectsSidebar from "./components/ProjectsSidebar";
 import NewProject from "./components/NewProject";
 import NoProjectSelected from "./components/NoProjectSelected";
+import { useState } from "react";
 
 function App() {
+  const [projectState, setProjectState] = useState({
+    projectStateId: "not adding",
+    projects: [],
+  });
+
+  function handleStartAddProject() {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        projectStateId: "adding",
+      };
+    });
+  }
+  let content;
+
+  if (projectState.projectStateId === "adding") {
+    content = <NewProject />;
+  } else if (projectState.projectStateId === "not adding") {
+    content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
+  }
+
   return (
     <main className="h-screen my-8 flex gap-8">
-      <ProjectsSidebar />
-
-      <NoProjectSelected />
+      <ProjectsSidebar onStartAddProject={handleStartAddProject} />
+      {content}
     </main>
   );
 }
