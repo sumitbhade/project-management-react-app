@@ -34,10 +34,21 @@ function App() {
     });
   }
 
+  function handleCancelAddProject() {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        projectStateId: "not adding",
+      };
+    });
+  }
+
   let content;
 
   if (projectState.projectStateId === "adding") {
-    content = <NewProject onAdd={handleAddProject} />;
+    content = (
+      <NewProject onAdd={handleAddProject} onCancel={handleCancelAddProject} />
+    );
   } else if (projectState.projectStateId === "not adding") {
     content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
   }
